@@ -1,104 +1,260 @@
-.App {
-  text-align: center;
+/* ----------------------------------------------------
+  GLOBAL THEME
+-----------------------------------------------------*/
+body, .dashboard {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  background: #f4f4f4;
+  color: #222;
+  transition: background 0.3s, color 0.3s;
 }
 
-
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.dashboard.dark {
+  background: #0d1117;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.dashboard.dark .card {
+  background: #161b22;
+  border-color: #30363d;
 }
 
-/* App.css */
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+.dashboard.dark .top-nav {
+  background: rgba(22, 27, 34, 0.7);
+  backdrop-filter: blur(10px);
 }
 
-.dashboard-container {
-  padding: 20px;
-  max-width: 1200px;
-  margin: auto;
+.dashboard.dark .nav-links button {
+  color: white;
 }
 
-h1 {
-  text-align: center;
-  color: #1e293b;
-}
-
-p.subtitle {
-  text-align: center;
-  color: #475569;
-}
-
-.cards {
+/* ----------------------------------------------------
+   TOP NAVIGATION BAR
+-----------------------------------------------------*/
+.top-nav {
+  width: 100%;
+  height: 65px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  position: fixed;
+  top: 0;
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 25px;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 600;
+  user-select: none;
+}
+
+/* ----------------------------------------------------
+   NAV LINKS
+-----------------------------------------------------*/
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.nav-links button {
+  background: transparent;
+  border: none;
+  font-size: 15px;
+  padding: 8px 14px;
+  cursor: pointer;
+  border-radius: 6px;
+  color: #222;
+  transition: 0.3s;
+}
+
+.nav-links button:hover {
+  background: rgba(0,0,0,0.08);
+}
+
+.nav-links .mode-btn {
+  background: #222;
+  color: white;
+  border-radius: 6px;
+}
+
+.dashboard.dark .nav-links .mode-btn {
+  background: #fff;
+  color: #000;
+}
+
+/* ----------------------------------------------------
+  CARDS & DASHBOARD
+-----------------------------------------------------*/
+.cards {
+  margin-top: 20px;
+  display: flex;
   gap: 20px;
-  margin-top: 30px;
+  flex-wrap: wrap;
   justify-content: center;
 }
 
 .card {
-  flex: 1;
-  min-width: 200px;
-  background: white;
-  border-radius: 16px;
+  width: 260px;
   padding: 20px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+  border-radius: 16px;
+  background: white;
+  border: 1px solid #eee;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: 0.3s;
 }
 
 .card:hover {
-  transform: translateY(-5px) scale(1.03);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+  transform: translateY(-5px);
 }
 
+/* STATUS COLORS */
 .status-safe {
-  border-top: 6px solid #22c55e;
+  border-left: 8px solid #22c55e;
 }
 
 .status-risk {
-  border-top: 6px solid #ef4444;
+  border-left: 8px solid #ef4444;
 }
 
+/* VALUE TEXT */
 .value {
-  font-size: 1.8rem;
+  font-size: 32px;
   font-weight: bold;
 }
 
-.chart-box {
-  margin-top: 40px;
-  background: white;
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+/* ----------------------------------------------------
+  ALERT BANNER
+-----------------------------------------------------*/
+.alert-banner {
+  margin: 20px auto;
+  padding: 15px;
+  width: 95%;
+  max-width: 600px;
+  background: #ef4444;
+  color: black !important;
+  text-align: center;
+  border-radius: 10px;
+  font-weight: 600;
+  animation: pulseGlow 1.5s infinite;
 }
 
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 10px rgba(255,0,0,0.3); }
+  50% { box-shadow: 0 0 20px rgba(255,0,0,0.7); }
+  100% { box-shadow: 0 0 10px rgba(255,0,0,0.3); }
+}
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* ----------------------------------------------------
+   CHART BOX
+-----------------------------------------------------*/
+.chart-box {
+  margin-top: 30px;
+  padding: 20px;
+  width: 95%;
+  max-width: 900px;
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #eee;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.dashboard.dark .chart-box {
+  background: #161b22;
+  border-color: #30363d;
+}
+
+/* ----------------------------------------------------
+   SUBTITLES
+-----------------------------------------------------*/
+.subtitle {
+  font-size: 18px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.last-updated {
+  text-align: center;
+  margin-top: -5px;
+  color: gray;
+}
+
+/* ----------------------------------------------------
+   RESPONSIVE
+-----------------------------------------------------*/
+@media (max-width: 700px) {
+  .nav-links {
+    gap: 8px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .nav-links button {
+    padding: 6px 10px;
+    font-size: 14px;
   }
+
+  .top-nav {
+    padding: 0 15px;
+  }
+
+  .logo {
+    font-size: 16px;
+  }
+}
+
+.settings-box {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 14px;
+  max-width: 420px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  margin-top: 20px;
+}
+
+.settings-box label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 8px;
+  font-size: 15px;
+  color: #333;
+}
+
+.settings-input {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 15px;
+  transition: 0.2s ease-in-out;
+}
+
+.settings-input:focus {
+  border-color: #0066ff;
+  box-shadow: 0 0 5px rgba(0, 102, 255, 0.3);
+}
+
+.save-btn {
+  background: #0066ff;
+  color: white;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
+  width: 100%;
+  transition: 0.2s ease;
+}
+
+.save-btn:hover {
+  background: #004fcc;
 }

@@ -1,0 +1,14 @@
+.alert-risk {
+    background: #ffdddd;
+    border-left: 5px solid red;
+}
+
+.alert-warning {
+    background: #fff3cd;
+    border-left: 5px solid orange;
+}
+
+.alert-safe {
+    background: #ddffdd;
+    border-left: 5px solid green;
+}
