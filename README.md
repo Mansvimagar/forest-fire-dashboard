@@ -1,70 +1,63 @@
-# Getting Started with Create React App
+AI Based Forest Fire Prediction System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A multi-sensor IoT prototype using ESP32 for early-stage forest fire detection and risk prediction.
 
-## Available Scripts
+1. System Overview
 
-In the project directory, you can run:
+The system collects real-time environmental data through:
+DHT11 – Temperature & Humidity
+MQ2 – Smoke concentration
+MQ135 – Air-quality / gas levels
+The ESP32 processes sensor data, computes a risk score using an AI-inspired model, triggers alerts, and pushes readings to ThingSpeak for cloud monitoring.
 
-### `npm start`
+2. Hardware Connections
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+ESP32
+DHT11 → GPIO 4
+MQ2 (Analog) → GPIO 34
+MQ135 (Analog) → GPIO 35
+MQ2 (Digital) → GPIO 18
+Buzzer → GPIO 19
+ADC attenuation is configured for MQ sensor voltages.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+3. Fire Risk Model
 
-### `npm test`
+Adaptive thresholds are derived from baseline readings:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+TEMP_THRESHOLD  = BaseTemp + 18°C
+MQ2_THRESHOLD   = BaseMQ2 × 1.35
+MQ135_THRESHOLD = BaseMQ135 × 1.30
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Normalized inputs:
+Tn   = temperature / TEMP_THRESHOLD
+S2   = MQ2 / MQ2_THRESHOLD
+S135 = MQ135 / MQ135_THRESHOLD
+Weighted risk score (0–100):
+Risk = 0.40*Tn + 0.35*S2 + 0.25*S135
+Risk levels: Safe / Moderate / High / Fire Alert.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. Cloud Integration
+Readings are sent to ThingSpeak via HTTP GET requests:
+Temperature, humidity, MQ2, MQ135, and computed risk.
+The cloud dashboard visualizes real-time trends.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+5. Prototype Testing
+A small forest model was used to verify:
+Normal ambient behavior
+Smoke and gas exposure
+Temperature rise
+Corresponding changes in risk score
 
-### `npm run eject`
+6. Future Work
+ML model deployment on-device
+Eliminate dependency on WiFi router
+Mobile notification system
+Geographical scaling
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+8. Contributors
+Ketaki – Hardware wiring and sensor assembly
+Monika – Connections and ESP32 firmware
+Mansvi – React-based dashboard
+Sayali – Machine Learning model
